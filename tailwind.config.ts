@@ -52,6 +52,24 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
+				health: {
+					excellent: 'hsl(var(--health-excellent))',
+					good: 'hsl(var(--health-good))',
+					warning: 'hsl(var(--health-warning))',
+					critical: 'hsl(var(--health-critical))',
+					neutral: 'hsl(var(--health-neutral))'
+				},
+				status: {
+					active: 'hsl(var(--status-active))',
+					inactive: 'hsl(var(--status-inactive))',
+					error: 'hsl(var(--status-error))'
+				},
+				chart: {
+					primary: 'hsl(var(--chart-primary))',
+					secondary: 'hsl(var(--chart-secondary))',
+					tertiary: 'hsl(var(--chart-tertiary))',
+					background: 'hsl(var(--chart-background))'
+				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
