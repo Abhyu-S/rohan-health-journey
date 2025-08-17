@@ -16,11 +16,11 @@ interface HealthTimelineProps {
 }
 
 export function HealthTimeline({ weeks, selectedWeek, onWeekSelect }: HealthTimelineProps) {
-  const getAdherenceColor = (level: number) => {
-    if (level >= 0.9) return 'health-excellent';
-    if (level >= 0.8) return 'health-good';
-    if (level >= 0.7) return 'health-warning';
-    return 'health-critical';
+  const getAdherenceColorClass = (level: number) => {
+    if (level >= 0.9) return 'bg-health-excellent';
+    if (level >= 0.8) return 'bg-health-good';
+    if (level >= 0.7) return 'bg-health-warning';
+    return 'bg-health-critical';
   };
 
   const getEventIcon = (event?: string) => {
@@ -67,7 +67,7 @@ export function HealthTimeline({ weeks, selectedWeek, onWeekSelect }: HealthTime
                 className={cn(
                   "w-4 h-4 rounded-full border-2 border-background transition-all duration-300 group-hover:scale-125",
                   selectedWeek === week.week ? "scale-125 shadow-[var(--shadow-medium)]" : "hover:scale-110",
-                  `bg-${getAdherenceColor(week.adherence_level)}`
+                  getAdherenceColorClass(week.adherence_level)
                 )}
               />
               
