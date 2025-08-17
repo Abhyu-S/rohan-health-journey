@@ -48,7 +48,9 @@ export const healthJourneyData = {
   // Adherence data over 32 weeks
   adherenceData: Array.from({ length: 32 }, (_, i) => {
     const week = i + 1;
-    const adherenceLevel = healthJourneyData?.weeklyTimeline?.[i]?.adherence_level || 0.8;
+    // Calculate adherence using the same logic as weeklyTimeline to avoid circular reference
+    const adherence = 0.6 + (Math.sin(week * 0.2) * 0.2) + (Math.random() * 0.3);
+    const adherenceLevel = Math.min(1, Math.max(0.4, adherence));
     return {
       week,
       value: Math.round(adherenceLevel * 100)
