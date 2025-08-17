@@ -1,238 +1,151 @@
-// Sample healthcare journey data for Rohan
+// Converted healthcare journey data for Rohan from state_changes_log.jsonl
 export const healthJourneyData = {
   member: {
     name: "Rohan",
-    memberId: "MBR-2024-001",
-    startDate: "2024-01-01",
+    memberId: "MBR-2025-001",
+    startDate: "2025-01-01", // Assuming a start date
     totalWeeks: 32
   },
 
   // Timeline data with major events and adherence levels
   weeklyTimeline: Array.from({ length: 32 }, (_, i) => {
     const week = i + 1;
-    const adherence = 0.6 + (Math.sin(week * 0.2) * 0.2) + (Math.random() * 0.3);
-    
-    const events = {
-      3: "Initial surgery for appendicitis",
-      8: "Started new medication regimen", 
-      12: "Travel to family gathering",
-      16: "Nutritionist consultation and diet plan",
-      20: "Emergency room visit for chest pain",
-      24: "Physical therapy program initiation",
-      28: "Routine cardiology follow-up",
-      31: "Medication dosage adjustment"
+    const summaries: { [key: number]: any } = {
+        8: { major_event: "Rohan's trip to Jakarta", adherence_level: 1 },
+        9: { major_event: "Rohan's appendectomy surgery", adherence_level: 0.8 },
+        10: { major_event: "Follow-up appointment scheduled for next week", adherence_level: 0.9 },
+        11: { major_event: "Rohan's ongoing recovery from health issues", adherence_level: 1 },
+        12: { major_event: "Rohan's recovery progress and initiation of light exercise", adherence_level: 1 },
+        13: { major_event: "Rohan checked his blood sugar levels and reported a reading of 105 mg/dL", adherence_level: 1 },
+        14: { major_event: null, adherence_level: 1 },
+        15: { major_event: "Rohan returned from a trip to Tokyo", adherence_level: 0.8 },
+        16: { major_event: "Rohan's trip to Jakarta", adherence_level: 0.9 },
+        17: { major_event: "Rohan's allergic reaction", adherence_level: 0.8 },
+        18: { major_event: "Rohan's trip to Tokyo", adherence_level: 0.7 },
+        19: { major_event: "Rohan caught a cold and took sick days to recover", adherence_level: 0.8 },
+        20: { major_event: "Rohan's upcoming trip to Jakarta", adherence_level: 0.9 },
+        21: { major_event: "Rohan's trip to Jakarta", adherence_level: 0.8 },
+        22: { major_event: "Rohan's trip to Jakarta", adherence_level: 1 },
+        23: { major_event: "Rohan's trip to Jakarta and maintaining healthy habits", adherence_level: 0.8 },
+        24: { major_event: "Discussion of recent test panel results", adherence_level: 0.9 },
+        25: { major_event: "Rohan's allergic reaction and subsequent management", adherence_level: 0.9 },
+        26: { major_event: "Rohan had surgery and is recovering.", adherence_level: 1 },
+        27: { major_event: "Rohan's minor respiratory infection and management of his health.", adherence_level: 1 },
+        28: { major_event: "upcoming trip to Tokyo", adherence_level: 0.9 },
+        29: { major_event: "upcoming trip to Tokyo", adherence_level: 0.9 },
+        30: { major_event: "Rohan's trip to Tokyo", adherence_level: 1 },
+        31: { major_event: "Trip to Tokyo", adherence_level: 1 },
+        32: { major_event: "upcoming trip to Jakarta", adherence_level: 1 }
     };
-
     return {
       week,
-      adherence_level: Math.min(1, Math.max(0.4, adherence)),
-      major_event: events[week as keyof typeof events]
+      adherence_level: summaries[week]?.adherence_level || 0.8 + (Math.random() * 0.2), // Default for weeks without summary
+      major_event: summaries[week]?.major_event || null
     };
   }),
 
-  // Blood pressure data over 32 weeks
+  // Blood pressure data over 32 weeks - Simulated based on initial out-of-range value
   bloodPressureData: Array.from({ length: 32 }, (_, i) => {
     const week = i + 1;
-    // Simulate improving trend with some variations
-    const baseSystolic = 150 - (week * 1.2) + (Math.sin(week * 0.3) * 8);
-    const baseDiastolic = 95 - (week * 0.8) + (Math.sin(week * 0.4) * 5);
+    // Simulate improving trend with some variations from 145/90
+    const baseSystolic = 145 - (week * 0.7) + (Math.sin(week * 0.3) * 5);
+    const baseDiastolic = 90 - (week * 0.5) + (Math.sin(week * 0.4) * 3);
     
     return {
       week,
-      systolic: Math.max(110, Math.min(170, Math.round(baseSystolic + (Math.random() * 10 - 5)))),
-      diastolic: Math.max(70, Math.min(110, Math.round(baseDiastolic + (Math.random() * 8 - 4)))),
-      value: Math.round(baseSystolic + (Math.random() * 10 - 5)) // for sparkline
+      systolic: Math.round(baseSystolic + (Math.random() * 6 - 3)),
+      diastolic: Math.round(baseDiastolic + (Math.random() * 4 - 2)),
+      value: Math.round(baseSystolic + (Math.random() * 6 - 3))
     };
   }),
 
   // Adherence data over 32 weeks
   adherenceData: Array.from({ length: 32 }, (_, i) => {
     const week = i + 1;
-    // Calculate adherence using the same logic as weeklyTimeline to avoid circular reference
-    const adherence = 0.6 + (Math.sin(week * 0.2) * 0.2) + (Math.random() * 0.3);
-    const adherenceLevel = Math.min(1, Math.max(0.4, adherence));
+    const summaryAdherence = {
+        8: 1, 9: 0.8, 10: 0.9, 11: 1, 12: 1, 13: 1, 14: 1, 15: 0.8, 16: 0.9, 17: 0.8, 18: 0.7, 19: 0.8, 20: 0.9, 21: 0.8, 22: 1, 23: 0.8, 24: 0.9, 25: 0.9, 26: 1, 27: 1, 28: 0.9, 29: 0.9, 30: 1, 31: 1, 32: 1
+    };
     return {
       week,
-      value: Math.round(adherenceLevel * 100)
+      value: (summaryAdherence[week as keyof typeof summaryAdherence] || 0.85 + (Math.random() * 0.1)) * 100
     };
   }),
 
   // Weekly summaries with symptoms and decisions
   weeklySummaries: {
-    1: {
-      week: 1,
-      current_symptoms: ["Mild abdominal pain", "Fatigue", "Loss of appetite"],
-      key_decisions: [
-        "Prescribed pain medication for post-surgical recovery",
-        "Recommended light activity and rest",
-        "Scheduled follow-up in 1 week"
-      ],
-      adherence_level: 0.85
-    },
-    8: {
-      week: 8,
-      current_symptoms: ["Occasional dizziness", "Mild nausea"],
-      key_decisions: [
-        "Started ACE inhibitor for blood pressure management",
-        "Recommended blood pressure monitoring twice daily",
-        "Adjusted diet to reduce sodium intake"
-      ],
-      major_event: "Started new medication regimen",
-      adherence_level: 0.78
-    },
-    16: {
-      week: 16,
-      current_symptoms: ["Improved energy levels", "Occasional headaches"],
-      key_decisions: [
-        "Incorporated Mediterranean diet plan",
-        "Added daily 30-minute walks",
-        "Introduced probiotics for digestive health"
-      ],
-      major_event: "Nutritionist consultation and diet plan",
-      adherence_level: 0.92
-    },
-    20: {
-      week: 20,
-      current_symptoms: ["Chest discomfort", "Shortness of breath", "Anxiety"],
-      key_decisions: [
-        "Emergency evaluation ruled out cardiac event",
-        "Adjusted medication timing",
-        "Referred to cardiologist for comprehensive evaluation"
-      ],
-      major_event: "Emergency room visit for chest pain",
-      adherence_level: 0.65
-    },
-    24: {
-      week: 24,
-      current_symptoms: ["Joint stiffness", "Muscle weakness"],
-      key_decisions: [
-        "Started physical therapy program",
-        "Added calcium and vitamin D supplements",
-        "Modified exercise routine for joint health"
-      ],
-      major_event: "Physical therapy program initiation",
-      adherence_level: 0.88
-    },
-    32: {
-      week: 32,
-      current_symptoms: [],
-      key_decisions: [
-        "Maintained current medication regimen",
-        "Continued regular exercise program",
-        "Scheduled quarterly follow-up appointments"
-      ],
-      adherence_level: 0.95
-    }
+    8: { week: 8, current_symptoms: ["Fatigue from travel"], key_decisions: ["Schedule a follow-up to review blood test results", "Try a quinoa salad recipe"], adherence_level: 1 },
+    9: { week: 9, current_symptoms: ["mild pain"], key_decisions: ["Rohan will set medication reminders with Ruby's help", "Rohan will start light walking when he feels up to it"], adherence_level: 0.8 },
+    10: { week: 10, current_symptoms: ["Mild discomfort at incision site"], key_decisions: ["Postponing travel to Jakarta", "Focusing on recovery before exercise"], adherence_level: 0.9 },
+    11: { week: 11, current_symptoms: ["fatigue", "gastrointestinal issues"], key_decisions: ["Postponing trip to Jakarta until fully recovered", "Incorporating probiotics or yogurt into diet"], adherence_level: 1 },
+    12: { week: 12, current_symptoms: ["a little fatigue"], key_decisions: ["Rohan decided to take it slow with exercise", "Rohan is focusing on a balanced diet", "Rohan is considering rescheduling his trip to Jakarta"], adherence_level: 1 },
+    13: { week: 13, current_symptoms: ["mild fatigue"], key_decisions: ["Rohan is considering rescheduling his trip to Jakarta", "Rohan will explore healthier food options while traveling"], adherence_level: 1 },
+    14: { week: 14, current_symptoms: ["occasional mild fatigue"], key_decisions: ["Rohan is considering rescheduling his trip to Jakarta until he feels fully ready.", "Rohan wants to avoid high-sugar snacks while traveling."], adherence_level: 1 },
+    15: { week: 15, current_symptoms: ["Fatigue from travel"], key_decisions: ["Incorporate morning walks", "Set up additional medication reminders in the morning", "Aim for at least 10,000 steps daily", "Focus on high-fiber meals for blood sugar management"], adherence_level: 0.8 },
+    16: { week: 16, current_symptoms: ["Headaches have subsided since starting to walk more"], key_decisions: ["Incorporate more high-fiber meals", "Monitor blood pressure closely", "Aim for 10,000 steps goal"], adherence_level: 0.9 },
+    17: { week: 17, current_symptoms: ["none reported, feeling much better"], key_decisions: ["Rohan will avoid shellfish", "Rohan will track his diet closely", "Rohan will use his wearable device to track activity", "Rohan will take antihistamines before meals"], adherence_level: 0.8 },
+    18: { week: 18, current_symptoms: ["drowsiness from antihistamines", "high blood sugar readings", "fatigue"], key_decisions: ["Schedule a follow-up to discuss blood sugar readings", "Monitor diet and check labels", "Prioritize rest and hydration"], adherence_level: 0.7 },
+    19: { week: 19, current_symptoms: ["cold", "drowsiness from antihistamines"], key_decisions: ["Schedule a check-in once Rohan feels better", "Discuss blood sugar levels with the doctor if symptoms persist"], adherence_level: 0.8 },
+    20: { week: 20, current_symptoms: ["Drowsiness from antihistamines"], key_decisions: ["Plan meal options and exercise routines for Jakarta trip", "Discuss allergy management with doctor", "Schedule follow-up after trip"], adherence_level: 0.9 },
+    21: { week: 21, current_symptoms: ["fatigue from work"], key_decisions: ["Rohan will track blood sugar levels and discuss antihistamine dosage with his doctor."], adherence_level: 0.8 },
+    22: { week: 22, current_symptoms: ["mild fatigue from work"], key_decisions: ["Aim for fasting blood sugar levels between 80-130 mg/dL", "Discuss antihistamine side effects with doctor", "Continue tracking blood sugar levels and medication reminders"], adherence_level: 1 },
+    23: { week: 23, current_symptoms: ["mild fatigue"], key_decisions: ["Schedule a follow-up to review progress", "Discuss antihistamine dosage with doctor"], adherence_level: 0.8 },
+    24: { week: 24, current_symptoms: ["Fatigue from work"], key_decisions: ["Monitor blood pressure and blood sugar levels", "Discuss test results with doctor"], adherence_level: 0.9 },
+    25: { week: 25, current_symptoms: ["nervousness about the allergy"], key_decisions: ["Rohan will carry his epinephrine auto-injector", "Rohan will try to find allergy-friendly restaurants in Tokyo", "Rohan will gradually increase his walking routine", "Ruby will send medication reminders during Rohan's travel"], adherence_level: 0.9 },
+    26: { week: 26, current_symptoms: ["fatigue", "mild pain at the incision site"], key_decisions: ["Sending low sugar recipes", "Preparing a travel health plan"], adherence_level: 1 },
+    27: { week: 27, current_symptoms: ["congestion", "mild cough"], key_decisions: ["Rohan decided to take time off work to recuperate.", "Rohan will monitor his symptoms and consider checking in with his doctor if the cough persists.", "Ruby will send low sugar recipes and snack ideas."], adherence_level: 1 },
+    28: { week: 28, current_symptoms: ["None reported, congestion is gone"], key_decisions: ["Prepare a travel health plan", "Check in with doctor before traveling", "Focus on managing stress and diet"], adherence_level: 0.9 },
+    29: { week: 29, current_symptoms: ["no symptoms from infection"], key_decisions: ["focus on stress management", "stick to low sugar diet", "pack healthy snacks"], adherence_level: 0.9 },
+    30: { week: 30, current_symptoms: ["No symptoms from previous infection"], key_decisions: ["Focus on managing elevated blood pressure", "Incorporate more relaxation techniques"], adherence_level: 1 },
+    31: { week: 31, current_symptoms: ["No symptoms"], key_decisions: ["Continue healthy eating and exercise routine", "Monitor blood pressure closely", "Incorporate relaxation techniques"], adherence_level: 1 },
+    32: { week: 32, current_symptoms: ["no symptoms"], key_decisions: ["focus on managing elevated blood pressure", "continue with low sugar diet and exercise", "pack low sugar snacks for travel"], adherence_level: 1 }
   },
 
   // Device status data
   wearableStatus: {
     status: 'active' as const,
-    lastUpdate: '2 hours ago',
-    batteryLevel: 78,
-    detectedIssues: []
+    lastUpdate: 'Just now',
+    batteryLevel: 85,
+    detectedIssues: ["irregular HR readings", "sync gaps"]
   },
 
   // Member questions data
   memberQuestions: {
-    1: {
-      week: 1,
-      questions: [
-        "How long will the recovery take?",
-        "Can I return to my normal diet soon?",
-        "When can I resume exercising?"
-      ],
-      ai_summary: "Patient focused on recovery timeline and lifestyle resumption post-surgery."
-    },
-    8: {
-      week: 8,
-      questions: [
-        "Why do I feel dizzy with the new medication?",
-        "Should I take the medicine with food?",
-        "What are the long-term effects?"
-      ],
-      ai_summary: "Concerns about medication side effects and proper administration."
-    },
-    16: {
-      week: 16,
-      questions: [
-        "Can I eat more fruits on this diet?",
-        "How much protein should I have daily?",
-        "Are there any foods I should completely avoid?"
-      ],
-      ai_summary: "Patient engaged with nutritional guidance and seeking diet optimization."
-    },
-    20: {
-      week: 20,
-      questions: [
-        "Was this a heart attack?",
-        "Should I stop my medications?",
-        "Is it safe to exercise now?"
-      ],
-      ai_summary: "High anxiety following ER visit, seeking reassurance about cardiac health."
-    },
-    24: {
-      week: 24,
-      questions: [
-        "How often should I do physical therapy?",
-        "Can I do these exercises at home?",
-        "Will the joint pain improve?"
-      ],
-      ai_summary: "Patient committed to physical therapy and understanding long-term benefits."
-    },
-    32: {
-      week: 32,
-      questions: [
-        "How often should I have checkups now?",
-        "Can I travel long distances?",
-        "Should I continue all my current medications?"
-      ],
-      ai_summary: "Patient confident in health improvement, planning for sustained wellness."
-    }
+    8: { week: 8, questions: ["Given my recent travel and the stress of adjusting to a different time zone, I've noticed an increase in my symptoms. Can we discuss how this could affect my current medication regimen, and are there any specific adjustments or additional strategies you would recommend for managing this situation?", "I've been tracking my activity levels and sleep patterns with my wearable device, and I've observed a correlation between less physical activity and a decline in my overall well-being. What evidence-based exercises or lifestyle changes do you suggest to help mitigate this, especially considering my chronic condition?"], ai_summary: "Inquired about managing travel stress impact on medication and requested exercise recommendations based on wearable data." },
+    9: { week: 9, questions: ["I've been tracking my blood sugar levels closely over the past few weeks, and I noticed a spike after my recent travel. Can we discuss how travel stress and changes in diet might impact my glucose levels? I’d also like your advice on adjusting my medication during such times.", "I've been trying to incorporate more physical activity into my routine, but I've read mixed reviews on high-intensity interval training (HIIT) for someone with my chronic condition. Can you clarify the potential risks and benefits of HIIT versus steady-state cardio in my case, especially considering my recent test results?"], ai_summary: "Concerned about travel's effect on blood sugar and sought advice on HIIT vs. steady-state cardio." },
+    10: { week: 10, questions: ["I've been tracking my symptoms with my wearable device, and I've noticed a significant increase in my heart rate variability during stressful situations. Can we discuss how my current medication regimen might be influencing this, and if there are any adjustments or additional therapies you would recommend?", "After my recent trip, I found it challenging to stick to my usual diet and exercise routine. I noticed some fluctuations in my blood sugar levels when I returned. Can we explore evidence-based strategies to better manage my diet while traveling and how I can effectively monitor my levels during those times?"], ai_summary: "Questioned medication's impact on HRV and asked for strategies to manage diet and blood sugar during travel." },
+    11: { week: 11, questions: ["I've noticed that my energy levels have been fluctuating since I started the new medication regimen. Could we discuss the potential side effects of these medications and how they might be impacting my daily activities and exercise routine?", "With my recent travel and changes in diet, I've experienced some digestive issues. What evidence-based dietary adjustments would you recommend to help manage these symptoms while still supporting my overall wellness goals?"], ai_summary: "Concerned about medication side effects on energy and asked for dietary advice for digestive issues." },
+    12: { week: 12, questions: ["I've been tracking my blood pressure with my wearable device, and I've noticed some spikes during stressful moments, especially after my recent travel. Can we discuss how stress management techniques might integrate with my current medication regimen to help stabilize these readings?", "I recently read about the potential benefits of the DASH diet for managing my condition, which seems to align with my health goals. Could you explain how this diet compares to my current meal plan, and are there any specific modifications you would recommend based on my latest lab results?"], ai_summary: "Asked about integrating stress management for BP control and inquired about the DASH diet." },
+    13: { week: 13, questions: ["I've been tracking my blood sugar levels since my last appointment, and I've noticed some fluctuations after meals, especially when I travel. Can we discuss how my current medication regimen might be affecting these readings, and whether adjustments might be necessary during travel?", "I recently read about the benefits of a Mediterranean diet for managing my condition. Could you help me understand how specific dietary changes could complement my current treatment plan, and what evidence supports this approach?"], ai_summary: "Inquired about medication adjustments for travel-related blood sugar fluctuations and the benefits of a Mediterranean diet." },
+    14: { week: 14, questions: ["Given my recent travel and the increased stress levels I experienced, how should I adjust my medication dosage or timing to better manage my chronic condition during these periods?", "I've been tracking my symptoms and noticed a correlation between my diet and my flare-ups. Can we discuss specific dietary changes that could help reduce inflammation, as well as any evidence-based studies that support these adjustments?"], ai_summary: "Asked for medication adjustment advice for travel stress and dietary changes to reduce inflammation." },
+    15: { week: 15, questions: ["I’ve been reading about the potential benefits of a low-FODMAP diet for managing my symptoms. Based on my recent test results, do you think this approach could be effective for me, and how might it interact with my current medications?", "I noticed that my wearable device recorded an increase in my heart rate during my recent travel, which was quite stressful. Can we discuss how stress management techniques, like mindfulness or specific breathing exercises, could be integrated into my current therapy plan to help mitigate these spikes?"], ai_summary: "Inquired about the low-FODMAP diet and integrating stress management techniques for heart rate spikes." },
+    16: { week: 16, questions: ["I've been tracking my blood pressure readings over the past month and noticed some fluctuations, especially after my recent travel. Could you help me understand how travel-related stress might affect my readings, and what strategies I can adopt to minimize these effects during future trips?", "I recently read about the Mediterranean diet and its benefits for chronic conditions similar to mine. Can you provide evidence-based insights on how this diet might impact my overall health and any specific foods or meals I should focus on to align with my wellness goals?"], ai_summary: "Asked about managing travel stress's effect on blood pressure and sought insights on the Mediterranean diet." },
+    17: { week: 17, questions: ["I've been tracking my symptoms and noticed an increase in fatigue after my recent trip. Could this be related to my current medication regimen, or should I consider adjusting my diet to mitigate these effects?", "I read a study suggesting that incorporating resistance training could improve my condition. Can you help me understand how to effectively integrate this into my current exercise routine without overexerting myself?"], ai_summary: "Inquired about the cause of post-travel fatigue and how to integrate resistance training safely." },
+    18: { week: 18, questions: ["I've noticed some fluctuations in my blood sugar levels since I started traveling more frequently. Could the changes in my diet and activity levels during these trips be affecting my insulin sensitivity? What strategies can I implement to better manage my levels while on the go?", "I've been reading about the potential benefits of incorporating high-intensity interval training (HIIT) into my exercise routine for managing my chronic condition. Do you think this approach could be appropriate for me, or would it be better to stick with my current low-impact exercises? What evidence supports the efficacy of HIIT for someone with my health profile?"], ai_summary: "Asked for strategies to manage blood sugar during travel and inquired about the suitability of HIIT." },
+    19: { week: 19, questions: ["I've noticed some fluctuations in my blood sugar levels after starting the new medication you prescribed last week. Could we go over how this medication interacts with my current diet, particularly the low-carb approach I've been following? I want to ensure I'm optimizing my meals for stable glucose levels.", "Since I recently returned from a stressful trip, I've been feeling more fatigued than usual, and my activity data from my wearable shows a decline in my daily step count. Can we discuss some strategies to gradually increase my physical activity without overexerting myself, and how to better manage stress during this transition?"], ai_summary: "Concerned about new medication's effect on blood sugar with a low-carb diet and sought strategies to manage post-travel fatigue." },
+    20: { week: 20, questions: ["I've been tracking my blood pressure with my new wearable device, and I've noticed some fluctuations after I increased my sodium intake during my recent trip. Can we discuss how dietary changes during travel can impact my condition and if there are specific strategies I should implement to manage these variations more effectively?", "I recently read about the benefits of mindfulness and stress reduction techniques for managing chronic conditions. Given my ongoing symptoms and the recent stress from work, could you elaborate on how incorporating mindfulness practices could complement my current medication regimen and overall wellness goals?"], ai_summary: "Asked about managing BP fluctuations from diet changes during travel and incorporating mindfulness." },
+    21: { week: 21, questions: ["Considering my recent increase in stress levels due to travel, I've noticed that my blood pressure readings have fluctuated more than usual. Can we discuss how my current medication regimen might be adjusted to better manage these changes, and what lifestyle modifications could complement this?", "I've been tracking my physical activity and sleep patterns with my wearable device, and I've found that my sleep quality has decreased since I started the new exercise routine. Could we explore whether any specific adjustments to my exercise plan or diet might help improve my sleep and overall recovery?"], ai_summary: "Inquired about medication adjustments for stress-related BP fluctuations and optimizing exercise/diet for better sleep." },
+    22: { week: 22, questions: ["I've been tracking my blood pressure with my wearable device, and I noticed some spikes during the past week, especially after my travel. Could we discuss how stress from travel might be affecting my readings and if there are specific techniques or exercises I can use to manage this better?", "I recently read about the potential interactions between my current medications and certain types of dietary supplements. Can you clarify which supplements I should avoid and how they might impact the effectiveness of my current treatment plan?"], ai_summary: "Asked for strategies to manage travel stress's impact on BP and for clarification on supplement interactions." },
+    23: { week: 23, questions: ["Given my recent increase in stress due to work travel, I've noticed my blood pressure readings have been higher than usual. Should I consider adjusting my medication dosage during high-stress periods, or are there specific non-pharmacological strategies you recommend to help manage these spikes?", "I've been tracking my physical activity with my wearable device, and I've seen a drop in my daily step count since I started my new job. How can I effectively integrate more movement into my day without compromising my work responsibilities, and would you suggest any specific exercises that are particularly beneficial for my condition?"], ai_summary: "Inquired about medication adjustments for stress-induced BP spikes and strategies to increase daily activity." },
+    24: { week: 24, questions: ["Given my recent increase in stress levels due to travel, I've noticed a spike in my symptoms. Could we discuss whether adjusting my medication dosage or incorporating stress management techniques into my routine might be beneficial?", "I've been tracking my daily activity with my wearable device, and I've noticed that my step count has decreased significantly since I started a new medication. Could we explore whether this change is linked to the medication, and what specific exercises could help maintain my physical activity levels?"], ai_summary: "Asked about medication adjustments for stress and the link between new medication and decreased activity." },
+    25: { week: 25, questions: ["I've noticed some fluctuations in my blood sugar levels since returning from my trip. Could stress and changes in my diet while traveling have contributed to this? What specific strategies can I implement to stabilize my levels moving forward?", "I recently read about the potential benefits of intermittent fasting for managing chronic conditions like mine. Can you explain how it might interact with my current medication regimen and if there are any significant risks I should be aware of?"], ai_summary: "Concerned about post-travel blood sugar fluctuations and inquired about intermittent fasting." },
+    26: { week: 26, questions: ["I've been tracking my heart rate variability with my wearable device, and I've noticed some fluctuations that coincide with my recent travel stress. Can you help me understand how these fluctuations might affect my chronic condition and if I should adjust my medication or therapy plan accordingly?", "I recently read a study suggesting that incorporating more anti-inflammatory foods into my diet can significantly improve symptoms related to my condition. Can you provide guidance on which specific foods or dietary changes would be most beneficial for me, and how they might interact with the medications I'm currently taking?"], ai_summary: "Asked about the impact of HRV fluctuations on his condition and for guidance on an anti-inflammatory diet." },
+    27: { week: 27, questions: ["I've noticed that my blood pressure readings have been slightly elevated after my recent business trip, possibly due to stress and changes in my diet. Can we discuss how I can adjust my medication or implement specific dietary changes to help manage this?", "I've been tracking my physical activity with my wearable device, and it shows a decrease in my daily steps since I started working from home. What evidence-based strategies can you recommend to help me incorporate more movement into my routine without overwhelming my schedule?"], ai_summary: "Inquired about managing post-travel BP elevation and strategies for increasing activity while working from home." },
+    28: { week: 28, questions: ["I've been tracking my blood sugar levels with my wearable device and noticed some fluctuations after my recent trip. Can we discuss how travel stress and changes in my diet might be affecting my readings, and whether I should adjust my medication accordingly?", "I've been doing some research on the latest studies regarding exercise and its impact on managing my chronic condition. Can you clarify how the intensity and duration of my workouts might influence my medication effectiveness, and if there are specific types of exercises you recommend based on the latest evidence?"], ai_summary: "Asked about medication adjustments for travel-related blood sugar changes and evidence-based exercise recommendations." },
+    29: { week: 29, questions: ["I've been tracking my blood pressure readings with my wearable device, and I've noticed some fluctuations after my recent travel. Can we discuss how travel stress might be impacting my condition and if there are specific exercises or relaxation techniques you recommend to help stabilize my readings?", "I recently read about the potential benefits of a Mediterranean diet for managing my chronic condition. Could you explain how this dietary approach might compare to my current meal plan, and are there particular foods I should focus on or avoid based on my medication regimen?"], ai_summary: "Sought advice on managing travel stress's impact on BP and inquired about the Mediterranean diet." },
+    30: { week: 30, questions: ["Given my recent travel and the increased stress levels during that time, I've noticed a spike in my symptoms. Can we discuss whether adjusting my medication dosage temporarily could help manage these fluctuations more effectively?", "I've been tracking my exercise and dietary habits using my wearable device, and I see a correlation between my activity levels and mood. What evidence-based strategies can we implement to optimize my routine for better overall wellness?"], ai_summary: "Asked about temporary medication adjustments for travel stress and strategies to optimize routine for wellness." },
+    31: { week: 31, questions: ["I've noticed some fluctuations in my blood sugar levels since my recent trip, particularly after meals. Could we discuss how stress and travel might affect my diabetes management, and are there specific dietary adjustments I should consider to stabilize my levels?", "I've been reading about the potential benefits of incorporating resistance training into my exercise routine for better blood sugar control. Can you provide insights on how this type of exercise compares to aerobic activities for someone with my condition, and what specific exercises you would recommend?"], ai_summary: "Inquired about dietary adjustments for travel-related blood sugar fluctuations and the benefits of resistance training." },
+    32: { week: 32, questions: ["I've been tracking my daily steps with my wearable device, and I noticed that my average has decreased since my last trip. Given that I have been more sedentary, could you suggest specific exercises or stretches that could help mitigate any negative effects on my condition?", "I've been reading about the potential side effects of my current medication and how they might interact with certain dietary choices. Can we discuss any evidence-based dietary adjustments I could make that would support my ongoing treatment and overall wellness?"], ai_summary: "Asked for exercise suggestions to counter sedentary periods and for dietary advice related to medication." }
   },
 
   // Chart interventions for deep dive view
   interventions: [
-    {
-      week: 3,
-      title: "Post-Surgical Recovery",
-      description: "Initiated comprehensive recovery protocol following appendectomy"
-    },
-    {
-      week: 8,
-      title: "Hypertension Management", 
-      description: "Started ACE inhibitor therapy to control elevated blood pressure"
-    },
-    {
-      week: 12,
-      title: "Travel Preparation",
-      description: "Adjusted medication schedule for family travel"
-    },
-    {
-      week: 16,
-      title: "Nutritional Intervention",
-      description: "Implemented Mediterranean diet with nutritionist guidance"
-    },
-    {
-      week: 20,
-      title: "Emergency Care",
-      description: "Emergency evaluation and medication timing adjustment"
-    },
-    {
-      week: 24,
-      title: "Physical Rehabilitation",
-      description: "Started structured physical therapy for mobility improvement"
-    },
-    {
-      week: 28,
-      title: "Cardiac Assessment",
-      description: "Comprehensive cardiology evaluation and treatment optimization"
-    },
-    {
-      week: 31,
-      title: "Dosage Optimization",
-      description: "Fine-tuned medication dosages based on patient response"
-    }
+    { week: 9, title: "Appendectomy Surgery", description: "Underwent emergency appendectomy." },
+    { week: 10, title: "Recovery Focus", description: "Postponed travel to focus on recovery." },
+    { week: 11, title: "Dietary Adjustment", description: "Incorporated probiotics into diet." },
+    { week: 15, title: "Activity Increase", description: "Began incorporating morning walks and aiming for 10,000 steps." },
+    { week: 17, title: "Allergy Management", description: "Started avoiding shellfish and carrying an epinephrine auto-injector." },
+    { week: 24, title: "Health Review", description: "Discussed recent test panel results with the medical team." },
+    { week: 30, title: "Stress Management", description: "Began incorporating more relaxation techniques to manage elevated blood pressure." }
   ]
 };
 
@@ -279,7 +192,7 @@ export const getWeeklyData = (week: number) => {
     weeklySummary: summary,
     deviceStatus: {
       ...healthJourneyData.wearableStatus,
-      last_sync: week === 32 ? '2 hours ago' : `${32 - week + 1} days ago`
+      last_sync: week === 32 ? 'Just now' : `${(32 - week) * 7} days ago`
     },
     memberQuestions: questions
   };
